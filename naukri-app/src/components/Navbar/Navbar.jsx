@@ -1,24 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../Navbar/Navbar.css';  // Ensure your CSS is correctly linked
 import nkri from "../../assets/nkri.png"
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [username, setUsername] = useState(null);  // To store the logged-in username
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  useEffect(() => {
+    // Retrieve the username from localStorage (if available)
+    const storedEmail = localStorage.getItem('email');  // Retrieve the email from localStorage
+    if (storedEmail) {
+      setUsername(storedEmail);  // Set the username (email) if found in localStorage
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Remove user data from localStorage on logout
+    localStorage.removeItem('email');
+    setUsername(null);  // Clear the username from the state
+  };
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo */}
         <div className="logo">
-      {/* Logo Link to Job Search */}
-      <Link to="/" className="logo-link">
-        <img src={nkri} alt="Naukri Logo" className="logo-img" />
-        <span className="logo-text">naukri</span>
-      </Link>
-    </div>
+          {/* Logo Link to Job Search */}
+          <Link to="/" className="logo-link">
+            <img src={nkri} alt="Naukri Logo" className="logo-img" />
+            <span className="logo-text">naukri</span>
+          </Link>
+        </div>
 
         {/* Hamburger Icon for Mobile */}
         <div className="hamburger" onClick={toggleMenu}>
@@ -41,7 +56,7 @@ function Navbar() {
 
           {/* Companies Dropdown */}
           <li className="dropdown">
-           Companies
+            <Link to="/jobs">Companies</Link>
             <ul className="dropdown-content">
               <li><Link to="/companies/google">Google</Link></li>
               <li><Link to="/companies/facebook">Facebook</Link></li>
@@ -50,8 +65,8 @@ function Navbar() {
           </li>
 
           {/* Services Dropdown */}
-          <li className="dropdown" >Services
-          
+          <li className="dropdown">
+            Services
             <ul className="dropdown-content">
               <li><Link to="/services/resume">Resume Building</Link></li>
               <li><Link to="/services/interview">Interview Prep</Link></li>
@@ -59,15 +74,19 @@ function Navbar() {
             </ul>
           </li>
 
-          {/* Log In Button */}
-          <li><Link to="/login" className="btn">Log In</Link></li>
+          {/* Log In / Hello User */}
+          {username ? (
+            <li>
+              <span className="btn">Hello, {username}</span>
+              <button onClick={handleLogout} className="btn">Log Out</button>
+            </li>
+          ) : (
+            <li><Link to="/login" className="btn">Log In</Link></li>
+          )}
         </ul>
       </div>
     </nav>
   );
 }
-
-
-
 
 export default Navbar;

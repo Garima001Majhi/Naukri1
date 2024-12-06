@@ -1,54 +1,62 @@
-import React from 'react';
-import ig1 from '../assets/adidas.png';  // Adidas logo
-import ig2 from "../assets/amazon.png";  // Amazon logo
-import ig3 from "../assets/intel.png";  // Intel logo
-import ig4 from "../assets/coca-cola.webp";  // Coca-Cola logo
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import "./JobList.css";
+function JobList() {
+  const [jobs, setJobs] = useState([]);  // State to hold job data
+  const [loading, setLoading] = useState(true);  // State to handle loading state
+  const [error, setError] = useState("");  // State to handle errors
 
-const jobs = [
-  { id: 1, title: 'Software Engineer', company: 'Google', location: 'Remote' },
-  { id: 2, title: 'Frontend Developer', company: 'Facebook', location: 'New York' },
-  { id: 3, title: 'Product Manager', company: 'Amazon', location: 'Seattle' },
-  { id: 4, title: 'Data Scientist', company: 'Microsoft', location: 'Redmond' },
-];
+  // Fetch job data when the component mounts
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const response = await axios.get(
+          "https://indeed.p.rapidapi.com/ads/apisearch",
+          {
+            params: {
+              v: "2",
+              format: "json",
+              q: "java",
+              l: "austin, tx",
+              radius: "25",
+            },
+            headers: {
+              "X-RapidAPI-Host": "indeed.p.rapidapi.com",
+              "X-RapidAPI-Key": "YOUR_API_KEY",  // Replace with your RapidAPI Key
+            },
+          }
+        );
+        setJobs(response.data.results);  // Set the job data into state
+      } catch (err) {
+        setError("Error fetching jobs data");  // Handle errors
+      } finally {
+        setLoading(false);  // Turn off loading
+      }
+    }
 
-// Define a function to map the company to the appropriate logo
-const getCompanyLogo = (company) => {
-  switch (company) {
-    case 'Google':
-      return ig1;  // Replace with actual Google logo image if available
-    case 'Facebook':
-      return ig2;  // Replace with actual Facebook logo image if available
-    case 'Amazon':
-      return ig3;  // Replace with Amazon logo
-    case 'Microsoft':
-      return ig4;  // Replace with Microsoft logo
-    default:
-      return ig5;  // Default logo (Coca-Cola)
-  }
-};
+    fetchJobs();  // Call the fetchJobs function
+  }, []);  // Empty dependency array means this runs once when the component mounts
 
-function JobList({ searchQuery = '' }) {
-  const filteredJobs = jobs.filter(job =>
-    job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    job.company.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Display loading or error message if necessary
+  if (loading) return <div>Loading jobs...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
-    <div className="job-list">
-      {filteredJobs.length > 0 ? (
-        filteredJobs.map(job => (
-          <div key={job.id} className="job-item">
-            <img src={getCompanyLogo(job.company)} alt="Company Logo" className="company-logo" />
-            <h2>{job.title}</h2>
-            <p>{job.company}</p>
-            <p>{job.location}</p>
-          </div>
-        ))
-      ) : (
-        <p>No jobs found</p>
-      )}
+    <div>
+      <h1>Job Listings</h1>
+      <ul>
+        {jobs.map((job) => (
+          <li key={job.jobkey}>
+            <h2>{job.jobtitle}</h2>
+            <p><strong>Company:</strong> {job.company}</p>
+            <p><strong>Location:</strong> {job.location}</p>
+            <p><strong>Description:</strong> {job.snippet}</p>
+            <a href={`https://www.indeed.com/viewjob?jk=${job.jobkey}`} target="_blank" rel="noopener noreferrer">
+              View Job
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

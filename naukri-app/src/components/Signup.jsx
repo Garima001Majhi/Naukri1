@@ -1,50 +1,55 @@
+// src/components/Signup.js
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { signupStart, signupSuccess, signupFailure } from '../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
+import './Signup.css';  // Import custom CSS file
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.user);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
-    dispatch(signupStart());
 
-    // Simulate an API call for signup
-    setTimeout(() => {
-      if (email && password) {
-        dispatch(signupSuccess({ username: 'New User', email }));
-      } else {
-        dispatch(signupFailure('Please fill all fields'));
-      }
-    }, 1000);
+    // Save the email and password in localStorage
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password); // You can store the password in localStorage, but it's not recommended for production.
+
+    // Redirect to the login page after signup
+    navigate('/login');
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing up...' : 'Sign Up'}
-        </button>
+    <div className="signup-container">
+      <h2 className="signup-title">Signup</h2>
+      <form onSubmit={handleSignup} className="signup-form">
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="input-field"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="input-field"
+          />
+        </div>
+        <button type="submit" className="signup-button">Signup</button>
       </form>
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };
