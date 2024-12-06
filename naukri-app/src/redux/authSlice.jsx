@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Initial state for authentication
 const initialState = {
-  token: null,
-  user: null,
+  token: null,  // Authentication token (could be JWT)
+  user: null,   // User data (e.g., username, email)
 };
 
 // Create the authSlice
@@ -14,17 +14,17 @@ const authSlice = createSlice({
   reducers: {
     // Action to set user and token after login
     setLogin: (state, action) => {
-      state.token = action.payload.token;
-      state.user = action.payload.user;
+      state.token = action.payload.token;  // Store the token
+      state.user = action.payload.user;    // Store the user object
     },
     // Action to set user information
     setUser: (state, action) => {
-      state.user = action.payload; // Set user object in state
+      state.user = action.payload;  // Update user information
     },
     // Action to handle logout
     logout: (state) => {
-      state.token = null;
-      state.user = null;
+      state.token = null;  // Clear token on logout
+      state.user = null;   // Clear user data on logout
     },
   },
 });

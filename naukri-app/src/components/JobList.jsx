@@ -29,6 +29,8 @@ function JobList() {
         // Update state with fetched job data
         if (response.data && response.data.results) {
           setJobs(response.data.results);
+        } else {
+          setError('No jobs found.');
         }
       } catch (error) {
         // Handle error and set error state
@@ -49,15 +51,12 @@ function JobList() {
   // Conditional rendering for errors
   if (error) return <div>{error}</div>;
 
-  // If no jobs are found
-  if (jobs.length === 0) return <div>No jobs found.</div>;
-
   return (
     <div>
       <h1>Job Listings</h1>
       <ul>
         {jobs.map((job) => (
-          <li key={job.jobkey}>  {/* Use jobkey or any unique identifier */}
+          <li key={job.jobkey}>  {/* Use jobkey as the unique identifier */}
             <h3>{job.jobtitle}</h3>
             <p>Company: {job.company}</p>
             <p>Location: {job.location}</p>

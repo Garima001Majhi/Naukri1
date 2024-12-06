@@ -10,20 +10,20 @@ import store from './redux/store';
 
 function App() {
   return (
-    <Provider store={store}>
-    <Router>
-      <div className="App">
-        <Navbar /> {/* Navbar component */}
-        <main>
-          <Routes>
-            <Route path="/" element={<JobSearch />} />
-            <Route path="/jobs" element={<JobList />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <Provider store={store}>  {/* Redux provider wraps the entire app */}
+      <Router>  {/* Router wraps the parts that will need routing */}
+        <div className="App">
+          <Navbar /> {/* Navbar component */}
+          <main>
+            <Routes>
+              <Route path="/" element={<JobSearch />} />
+              <Route path="/jobs" element={<JobList />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
     </Provider>
   );
 }

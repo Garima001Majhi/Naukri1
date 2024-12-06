@@ -7,7 +7,9 @@ import App from './App';                 // Main App component
 import './index.css';                    // Global styles
 
 // Render the application with Redux Provider
-ReactDOM.createRoot(document.getElementById('root')).render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
   <Provider store={store}>  {/* Provide the Redux store to the entire app */}
     <React.StrictMode>
       <App />

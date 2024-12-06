@@ -76,8 +76,7 @@ function Navbar() {
 
           {/* Log In / Hello User */}
           {username ? (
-            <li>
-            
+            <li className="user-info">
               <button onClick={handleLogout} className="btn">Hello, {username}</button>
             </li>
           ) : (
