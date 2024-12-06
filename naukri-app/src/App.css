@@ -1,0 +1,17 @@
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
+.Navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+main {
+  margin-top: 60px; /* Adjust this value based on your Navbar height */
+  flex: 1;
+  overflow-y: auto;
+}

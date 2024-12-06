@@ -13,9 +13,12 @@ function Navbar() {
       <div className="navbar-container">
         {/* Logo */}
         <div className="logo">
-          <img src={nkri} alt="Logo" className="logo-img" />
-          <h2>naukri</h2>
-        </div>
+      {/* Logo Link to Job Search */}
+      <Link to="/" className="logo-link">
+        <img src={nkri} alt="Naukri Logo" className="logo-img" />
+        <span className="logo-text">naukri</span>
+      </Link>
+    </div>
 
         {/* Hamburger Icon for Mobile */}
         <div className="hamburger" onClick={toggleMenu}>
@@ -28,7 +31,7 @@ function Navbar() {
         <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
           {/* Jobs Dropdown */}
           <li className="dropdown">
-            <Link to="/jobs">Jobs</Link>
+            Jobs
             <ul className="dropdown-content">
               <li><Link to="/jobs/tech">Tech Jobs</Link></li>
               <li><Link to="/jobs/design">Design Jobs</Link></li>
@@ -38,7 +41,7 @@ function Navbar() {
 
           {/* Companies Dropdown */}
           <li className="dropdown">
-            <Link to="/companies">Companies</Link>
+           Companies
             <ul className="dropdown-content">
               <li><Link to="/companies/google">Google</Link></li>
               <li><Link to="/companies/facebook">Facebook</Link></li>
@@ -47,8 +50,8 @@ function Navbar() {
           </li>
 
           {/* Services Dropdown */}
-          <li className="dropdown">
-            <Link to="/services">Services</Link>
+          <li className="dropdown" >Services
+          
             <ul className="dropdown-content">
               <li><Link to="/services/resume">Resume Building</Link></li>
               <li><Link to="/services/interview">Interview Prep</Link></li>
