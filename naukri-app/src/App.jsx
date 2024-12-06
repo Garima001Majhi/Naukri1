@@ -23,7 +23,8 @@ function App() {
           </Routes>
         </main>
       </div>
-    </Router></Provider>
+    </Router>
+    </Provider>
   );
 }
 

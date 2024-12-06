@@ -13,7 +13,7 @@ function Navbar() {
     // Retrieve the username from localStorage (if available)
     const storedEmail = localStorage.getItem('email');  // Retrieve the email from localStorage
     if (storedEmail) {
-      setUsername(storedEmail);  // Set the username (email) if found in localStorage
+      setUsername(storedEmail.split('@')[0]);  // Set the username (email) if found in localStorage
     }
   }, []);
 
@@ -77,8 +77,8 @@ function Navbar() {
           {/* Log In / Hello User */}
           {username ? (
             <li>
-              <span className="btn">Hello, {username}</span>
-              <button onClick={handleLogout} className="btn">Log Out</button>
+            
+              <button onClick={handleLogout} className="btn">Hello, {username}</button>
             </li>
           ) : (
             <li><Link to="/login" className="btn">Log In</Link></li>
